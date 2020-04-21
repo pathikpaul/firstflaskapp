@@ -1,4 +1,4 @@
-# My Firs Flask App 
+# My First Flask App 
 
 ## Tested on Virtual box using Vagrant
   bento/centos-7.2  (came with Python 2.7.5 installed)
@@ -24,4 +24,14 @@
 ```bash
   http://192.168.77.10:5000/
   http://192.168.77.10:5000/info
+```
+## What does this app do
+```bash
+   - /info
+     - Displays Host information like IP Address
+     - Current Time
+     - A Counter
+   - Displays, Adds and deletes Notes
+   - Notes are kept in a local static files
+   - This version is NOT suitable for scaling
 ```
