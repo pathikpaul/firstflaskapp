@@ -35,3 +35,24 @@
    - Notes are kept in a local static files
    - This version is NOT suitable for scaling
 ```
+## For Deploying in AWS needed the "requirements.txt" file 
+```bash
+pip freeze >requirements.txt
+```
+## For Deploying the App 
+https://flask.palletsprojects.com/en/1.1.x/deploying/
+https://gunicorn.org/#deployment
+```bash
+pip install gunicorn
+gunicorn myfirstapp:app # gunicorn -D myfirstapp:app  # use -D for Deamon Mode
+gunicorn stop
+sudo yum -y install epel-release
+sudo yum -y install nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo systemctl status nginx
+sudo cp -fp   /etc/nginx/nginx.conf /etc/nginx/nginx.conf_backup
+sudo vi   /etc/nginx/nginx.conf ## update as per https://gunicorn.org/#deployment
+sudo systemctl restart nginx
+sudo systemctl status nginx
+```
