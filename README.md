@@ -36,6 +36,7 @@
    - This version is NOT suitable for scaling
 ```
 ## For Deploying in AWS needed the "requirements.txt" file 
+- https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-development-environment.html
 ```bash
 pip freeze >requirements.txt
 ```
