@@ -40,8 +40,8 @@
 pip freeze >requirements.txt
 ```
 ## For Deploying the App 
-https://flask.palletsprojects.com/en/1.1.x/deploying/
-https://gunicorn.org/#deployment
+- https://flask.palletsprojects.com/en/1.1.x/deploying/
+- https://gunicorn.org/#deployment
 ```bash
 pip install gunicorn
 gunicorn myfirstapp:app # gunicorn -D myfirstapp:app  # use -D for Deamon Mode
