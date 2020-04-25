@@ -17,7 +17,7 @@
 ## Ran using the below
 ```bash
   export  FLASK_ENV=development
-  export  FLASK_APP=myfirstapp
+  export  FLASK_APP=application  ##
   flask run --host=192.168.77.10 ## since the machine does not have a browser I had to use below flask command instead of "flask run"
 ```
 ## Tested at below URL
@@ -35,17 +35,12 @@
    - Notes are kept in a local static files
    - This version is NOT suitable for scaling
 ```
-## For Deploying in AWS needed the "requirements.txt" file 
-- https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-development-environment.html
-```bash
-pip freeze >requirements.txt
-```
 ## For Deploying the App 
 - https://flask.palletsprojects.com/en/1.1.x/deploying/
 - https://gunicorn.org/#deployment
 ```bash
 pip install gunicorn
-gunicorn myfirstapp:app # gunicorn -D myfirstapp:app  # use -D for Deamon Mode
+gunicorn application:app # gunicorn -D application:app  # use -D for Deamon Mode
 gunicorn stop
 sudo yum -y install epel-release
 sudo yum -y install nginx
@@ -56,4 +51,20 @@ sudo cp -fp   /etc/nginx/nginx.conf /etc/nginx/nginx.conf_backup
 sudo vi   /etc/nginx/nginx.conf ## update as per https://gunicorn.org/#deployment
 sudo systemctl restart nginx
 sudo systemctl status nginx
+```
+## For Deploying in AWS I needed to make a few changes
+- Create a "requirements.txt" file 
+- https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-development-environment.html
+- renamed the application from "app" to "application" in the code
+-- The latest version is already called "application"
+- Edited to Code to Remove the IP Address code block for now
+-- The Logic will need to be able to Multiple IP Addresses
+- Added Logic to handle missing file "notes_db.json"
+```bash
+pip freeze >requirements.txt
+```
+- See below zip command or git command to create the zip file
+```bash
+zip myapp.zip application.py templates/* static/* README.md  requirements.txt notes_db.json
+git archive -v -o myapp.zip --format=zip HEAD
 ```

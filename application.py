@@ -98,5 +98,4 @@ notes=read_notes()
 
 if __name__ == "__main__":
     application.debug = True
-    #application.run(host='192.168.77.10')
     application.run()
