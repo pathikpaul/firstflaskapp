@@ -20,35 +20,35 @@ import platform
 import socket
 from datetime import datetime
 from flask import Flask,render_template,request,abort,redirect,url_for
+import os.path
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 PageVisistedCount=0
-@app.route('/info')
+@application.route('/info')
 def info():
     global PageVisistedCount
     PageVisistedCount=PageVisistedCount+1
     FlaskVersion=flask.__version__
     myhostname = socket.gethostname()
-    myip_address = socket.gethostbyname(myhostname)
+    #myip_address = socket.gethostbyname(myhostname)
     myString=("Hello, World!"+"</br>"
              +"FlaskVersion="+FlaskVersion+"</br>"
              +"Running At: "+str(datetime.now())+"</br>"
              +"OS: "+str(platform.platform())+"</br>"
              +"Release: "+str(platform.linux_distribution())+"</br>"
              +"Hostname: "+myhostname+"</br>"
-             +"IP Address: "+myip_address+"</br>"
              +"</br>"
              +"</br>"
              +"PageVisisted: "+str(PageVisistedCount)+" times</br>"
              )
     return myString
 
-@app.route('/')
+@application.route('/')
 def welcome():
    return render_template("welcome.html",notes=notes)
 
-@app.route('/note/<int:index>')
+@application.route('/note/<int:index>')
 def note_view(index):
     try:
         if index<= len(notes)-1:
@@ -58,7 +58,7 @@ def note_view(index):
     except IndexError:
         abort(404)
 
-@app.route('/delete_note/<int:index>',methods=["GET","POST"])
+@application.route('/delete_note/<int:index>',methods=["GET","POST"])
 def delete_note(index):
     if request.method == "GET":
         return render_template("delete_note.html",note=notes[index],index=index)
@@ -72,7 +72,7 @@ def delete_note(index):
                 return render_template("welcome.html",notes=notes)
         except IndexError:
             abort(404)
-@app.route('/add_note',methods=["GET","POST"])
+@application.route('/add_note',methods=["GET","POST"])
 def add_note():
     if request.method == "GET":
         return render_template("add_note.html")
@@ -83,12 +83,20 @@ def add_note():
         return redirect(url_for('note_view', index=len(notes)-1))
 
 def read_notes():
-    with open("notes_db.json") as f:
-        return json.load(f)
+    if os.path.exists("notes_db.json"):
+        with open("notes_db.json") as f:
+            return json.load(f)
+    else:
+       return ([{"topic": "T1", "comment": "comment one"}, {"topic": "T2", "comment": "comment two"}, {"topic": "T3", "comment": "comment three"}, {"topic": "T4 ", "comment": "comment four"}])
+
 def write_note(list_of_notes):
-    with open("notes_db.json", 'w') as f:
-        return json.dump(list_of_notes, f)
+    if os.path.exists("notes_db.json"):
+        with open("notes_db.json", 'w') as f:
+            return json.dump(list_of_notes, f)
+
 notes=read_notes()
 
-#app.run(host='192.168.77.10',port=5000)
-
+if __name__ == "__main__":
+    application.debug = True
+    #application.run(host='192.168.77.10')
+    application.run()
