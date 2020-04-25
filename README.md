@@ -53,17 +53,12 @@ sudo systemctl restart nginx
 sudo systemctl status nginx
 ```
 ## For Deploying in AWS I needed to make a few changes
-- Create a "requirements.txt" file 
-- https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-development-environment.html
-- renamed the application from "app" to "application" in the code
--- The latest version is already called "application"
-- Edited to Code to Remove the IP Address code block for now
--- The Logic will need to be able to Multiple IP Addresses
-- Added Logic to handle missing file "notes_db.json"
+* Created a "requirements.txt" file 
+    * https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-development-environment.html
 ```bash
 pip freeze >requirements.txt
 ```
-- See below zip command or git command to create the zip file
+* Created a Zip file to be used by Elastic Beanstalk 
 ```bash
 zip myapp.zip application.py templates/* static/* README.md  requirements.txt notes_db.json
 git archive -v -o myapp.zip --format=zip HEAD
