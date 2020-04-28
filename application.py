@@ -21,6 +21,7 @@ import socket
 from datetime import datetime
 from flask import Flask,render_template,request,abort,redirect,url_for
 import os.path
+import sys
 
 application = Flask(__name__)
 
@@ -98,4 +99,8 @@ notes=read_notes()
 
 if __name__ == "__main__":
     application.debug = True
-    application.run()
+    if  len(sys.argv) == 2:
+        print("Port To be Used: {0}".format(sys.argv[1]))
+        application.run(host='0.0.0.0',port=sys.argv[1])
+    else:
+        application.run()
