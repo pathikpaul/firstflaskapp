@@ -66,7 +66,7 @@ zip myapp.zip application.py templates/* static/* README.md  requirements.txt no
 git archive -v -o myapp.zip --format=zip HEAD
 ```
 
-## For Deploying in AWS using a Launch Configuration
+## For Deploying in AWS using a Launch Configuration In Development Mode
 ```bash
 #!/bin/bash
 yum install git -y
@@ -74,5 +74,24 @@ git clone https://github.com/pathikpaul/firstflaskapp.git
 easy_install pip
 pip install -r firstflaskapp/requirements.txt
 python firstflaskapp/application.py 80
+```
+## For Deploying in AWS using a Launch Configuration with Gunicorn and Nginx
+```bash
+#!/bin/bash
+yum install git -y
+git clone https://github.com/pathikpaul/firstflaskapp.git
+easy_install pip
+pip install -r firstflaskapp/requirements.txt
+#GUNICORN
+pip install gunicorn
+gunicorn -D --chdir firstflaskapp -b:5000  application:application
+#NGINX
+amazon-linux-extras install nginx1.12 -y
+cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf_saved_pathik
+sh -c "sed 's/default_server//' /etc/nginx/nginx.conf_saved_pathik > /etc/nginx/nginx.conf"
+cp firstflaskapp/firstflaskapp_nginx.conf /etc/nginx/conf.d/.
+systemctl start nginx
+systemctl enable nginx
+systemctl status nginx
 ```
 
