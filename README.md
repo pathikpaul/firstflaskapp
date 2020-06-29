@@ -94,4 +94,8 @@ systemctl start nginx
 systemctl enable nginx
 systemctl status nginx
 ```
+## Tested this with S3 (instead of files on local disk)
+The bucket needs to be created
+The initial DB File needs to be uploaded to S3
+The sample code is in application.py_works_with_S3
 

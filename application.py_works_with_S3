@@ -14,6 +14,9 @@
 ##    flask run 
 ##    flask run --host=192.168.77.10
 #########################################
+## Uses Bucket "pathik2020" which needs to be created    " aws s3 mb pathik2020                    "
+## Bucket Needs to be Preloaded with a few records using " aws s3 cp notes_db.json s3://pathik2020 "
+#########################################
 import json
 import flask
 import platform
@@ -22,6 +25,7 @@ from datetime import datetime
 from flask import Flask,render_template,request,abort,redirect,url_for
 import os.path
 import sys
+import boto3
 
 application = Flask(__name__)
 
@@ -87,16 +91,21 @@ def add_note():
         return redirect(url_for('note_view', index=len(notes)-1))
 
 def read_notes():
-    if os.path.exists("notes_db.json"):
-        with open("notes_db.json") as f:
-            return json.load(f)
-    else:
-       return ([{"topic": "T1", "comment": "comment one"}, {"topic": "T2", "comment": "comment two"}, {"topic": "T3", "comment": "comment three"}, {"topic": "T4 ", "comment": "comment four"}])
+    s3 = boto3.client('s3')
+    LocalFileName="notes_db.json"
+    BUCKET_NAME="pathik2020"
+    obj = s3.get_object(Bucket=BUCKET_NAME, Key=LocalFileName)
+    j = json.loads(obj['Body'].read())
+    return (j)
+#    else:
+#       return ([{"topic": "T1", "comment": "comment one"}, {"topic": "T2", "comment": "comment two"}, {"topic": "T3", "comment": "comment three"}, {"topic": "T4 ", "comment": "comment four"}])
 
 def write_note(list_of_notes):
-    if os.path.exists("notes_db.json"):
-        with open("notes_db.json", 'w') as f:
-            return json.dump(list_of_notes, f)
+    s3 = boto3.client('s3')
+    LocalFileName="notes_db.json"
+    BUCKET_NAME="pathik2020"
+    s3.put_object(Bucket=BUCKET_NAME, Key=LocalFileName, Body=json.dumps(list_of_notes))
+    return list_of_notes
 
 notes=read_notes()
 
