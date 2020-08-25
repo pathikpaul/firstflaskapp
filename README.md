@@ -95,13 +95,16 @@ systemctl enable nginx
 systemctl status nginx
 ```
 ## Tested this with S3 (instead of files on local disk)
-The bucket needs to be created
-The initial DB File needs to be uploaded to S3
+**Pre Requisites**
+aws cli needs to be installed on your machine
+aws cli needs to be configured on your machine
 The sample code is in application.py_works_with_S3
 ```bash
 ## Inital Setup 
 cd firstflaskapp
+# The bucket needs to be created 
 aws s3 mb s3://pathik2020
+# The initial DB File needs to be uploaded to S3 Bucket
 aws s3 cp notes_db.json s3://pathik2020/
 aws s3 ls s3://pathik2020/notes_db.json  ## Expect Output notes_db.json
 ##
@@ -113,3 +116,25 @@ mv application.py        application.py_works_with_S3
 mv application.py_save   application.py 
 
 ```
+## Tested this with AWS Lambda
+lambda_read_notes.py
+ - Create Lambda Funciton 
+ - ReadNotes  (Python 2.7)
+ - Create a new role from AWS policy templates
+ - lambdareadnotes
+ - Attach AmazonS3FullAccess (using IAM)
+lambda_write_notes.py
+ - WriteNotes (Python 2.7)
+ - Create a new role from AWS policy templates
+ - lambdawritenotes
+ - Attach AmazonS3FullAccess (using IAM)
+ - Test using the below event
+```bash
+{ "list_of_notes": [ { "topic": "Topic1", "comment": "Test1 Uploaded" },
+                     { "topic": "Topic2", "comment": "Test2 Uploaded" } ]
+}
+```
+ - validate that you can Read the Event after writing to it
+Now that we have the Lambda Functions we need be able to connect it with the API Gateway
+API Gateway
+
