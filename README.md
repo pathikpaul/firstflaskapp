@@ -123,6 +123,7 @@ lambda_read_notes.py
  - Create a new role from AWS policy templates
  - lambdareadnotes
  - Attach AmazonS3FullAccess (using IAM)
+
 lambda_write_notes.py
  - WriteNotes (Python 2.7)
  - Create a new role from AWS policy templates
@@ -135,6 +136,7 @@ lambda_write_notes.py
 }
 ```
  - validate that you can Read the Event after writing to it
+
 Now that we have the Lambda Functions we need be able to connect it with the API Gateway
 API Gateway
 
