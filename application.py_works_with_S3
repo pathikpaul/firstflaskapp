@@ -59,7 +59,7 @@ def note_view(index):
         if index<= len(notes)-1:
             return render_template("note.html", note=notes[index],index=index,max_index=len(notes)-1)
         else:
-            return render_template("welcome.html",notes=notes)
+            return redirect(url_for('welcome'))
     except IndexError:
         abort(404)
 
@@ -75,9 +75,9 @@ def delete_note(index):
             notes.pop(index)
             write_note(notes)
             if index<= len(notes)-1:
-                return render_template("note.html", note=notes[index],index=index,max_index=len(notes)-1)
+                return redirect(url_for('note_view', index=len(notes)-1))
             else:
-                return render_template("welcome.html",notes=notes)
+                return redirect(url_for('welcome'))
         except IndexError:
             abort(404)
 @application.route('/add_note',methods=["GET","POST"])

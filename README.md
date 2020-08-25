@@ -98,4 +98,8 @@ systemctl status nginx
 The bucket needs to be created
 The initial DB File needs to be uploaded to S3
 The sample code is in application.py_works_with_S3
-
+```bash
+mv application.py application.py_save
+application.py_works_with_S3 application.py
+aws s3 ls ## validate that you AWS configuration is all setup
+```
