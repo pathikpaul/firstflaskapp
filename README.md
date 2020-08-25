@@ -10,7 +10,7 @@
   cd ~
   python2 -m virtualenv venv
   cd ~
-  . venv/bin/activate
+  . ~/venv/bin/activate
   pip install Flask==1.1.2
   mkdir firstflaskapp
   cd firstflaskapp
