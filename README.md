@@ -99,10 +99,16 @@ The bucket needs to be created
 The initial DB File needs to be uploaded to S3
 The sample code is in application.py_works_with_S3
 ```bash
+## Inital Setup 
+cd firstflaskapp
+aws s3 mb s3://pathik2020
+aws s3 cp notes_db.json s3://pathik2020/
+aws s3 ls s3://pathik2020/notes_db.json  ## Expect Output notes_db.json
+##
 mv application.py               application.py_save
 mv application.py_works_with_S3 application.py
 aws s3 ls ## validate that you AWS configuration is all setup
-## Finally
+## Finally Restore files
 mv application.py        application.py_works_with_S3
 mv application.py_save   application.py 
 
