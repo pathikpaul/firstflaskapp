@@ -183,3 +183,35 @@ mv application.py        application.py_works_with_unauthenticated_lamba_api
 mv application.py_save   application.py 
 ```
 
+Securing the API using Usage Plans and API Keys
+- API Gateway -> NewNote(ApiName) -> GET  -> Method Request -> API Key Required = true
+- API Gateway -> NewNote(ApiName) -> POST -> Method Request -> API Key Required = true
+- Actions -> Deploy API -> dev -> Save
+- API Gateway -> Usage Plans -> xxxxxxxxxxxUsagePlan -> Next -> Add API Stage -> NewNote(ApiName) -> dev (stage) -> ClickTheCheckMark -> Next -> Create API Key and Add to Usage Plan
+- Store the APIKey in the Parameter Store
+- AWS Systems Manager > Parameter Store > Create parameter -> APIKey
+- Validate that you can extract the APIKey from your machine
+- Validate that you get Forbidden when you try to readh your API URL without the key
+- Validate using Curl that you can reach the API when you pass the key to CURL
+```bash
+$ aws ssm get-parameter --name APIKey --with-decryption
+$
+$ curl https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/dev
+{"message":"Forbidden"}
+$ 
+$ curl https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/dev -H "x-api-key:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+{"body": [{"topic": "Topic3", "comment": "Test3 Uploaded via API"}, {"topic": "Topic2", "comment": "Added via Browser"}], "statusCode": 200}
+$
+```
+
+To test the code
+```bash
+##
+mv application.py                                        application.py_save
+mv application.py_works_with_lamba_api_with_apikeys      application.py
+## Finally Restore files
+mv application.py        application.py_works_with_lamba_api_with_apikeys
+mv application.py_save   application.py 
+```
+
+
