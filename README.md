@@ -110,7 +110,6 @@ aws s3 ls s3://pathik2020/notes_db.json  ## Expect Output notes_db.json
 ##
 mv application.py               application.py_save
 mv application.py_works_with_S3 application.py
-aws s3 ls ## validate that you AWS configuration is all setup
 ## Finally Restore files
 mv application.py        application.py_works_with_S3
 mv application.py_save   application.py 
@@ -139,4 +138,42 @@ lambda_write_notes.py
 
 Now that we have the Lambda Functions we need be able to connect it with the API Gateway
 API Gateway
+New Rest API ApiName = NewNote
+ CreateMethod = GET
+ Use Lambda Proxy integration = NotChecked
+ LambdaFuntion = ReadNotes
+ Test the function using "Test" button 
+ Validate the results
+ Deploy to New Stage "dev"
+ Enable Throttling 1 request per sec 
+ Hit the URL using a Browser and validate that function is working
+ URL will be something like https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/dev
+ CreateMethod = POST
+ Use Lambda Proxy integration = NotChecked
+ LambdaFuntion = WriteNotes
+ Test the function using "Test" button 
+```bash
+{ "list_of_notes": [ { "topic": "Topic3", "comment": "Test3 Uploaded via API" },
+                     { "topic": "Topic4", "comment": "Test4 Uploaded via API" } ]
+}
+```
+ Validate the results
+ Deploy to New Stage "dev"
+ Enable Throttling 1 request per sec 
+ Hit the URL and validate that the data was uploaded into S3 via Test Method
 
+We can store the URL in the API Parmeter key so that we do not have to store it in GITHUM
+AWS Systems Manager > Parameter Store > Create parameter
+APIInvokeUrl 
+Standard, SecureString, Save the URL in the Value Field
+```bash
+aws ssm get-parameter --name APIInvokeUrl  --with-decryption
+```
+
+To test the code
+##
+mv application.py                                        application.py_save
+mv application.py_works_with_unauthenticated_lamba_api   application.py
+## Finally Restore files
+mv application.py        application.py_works_with_unauthenticated_lamba_api  
+mv application.py_save   application.py 
