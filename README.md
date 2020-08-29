@@ -204,6 +204,21 @@ $ curl https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/dev -H "x-api-key:
 $
 ```
 
+Simple Python Code to call the API 
+
+```bash
+import requests, json
+import logging
+logging.basicConfig(level=logging.DEBUG)
+url="https://XXXXXXXXXX.execute-api.us-west-2.amazonaws.com/dev"
+headers = {'x-api-key': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'}
+r=requests.request("GET",url,verify=False,headers=headers)
+print('\nRESPONSE++++++++++++++++++++++++++++++++++++')
+print('Response code: %d\n' % r.status_code)
+print("Type: ",type(r.text))
+print(r.text)
+```
+
 To test the code
 ```bash
 ##
