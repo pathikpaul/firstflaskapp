@@ -122,12 +122,14 @@ lambda_read_notes.py
  - Create a new role from AWS policy templates
  - lambdareadnotes
  - Attach AmazonS3FullAccess (using IAM)
+ - Lambda - Basic Settings - Edit - 15 Seconds
 
 lambda_write_notes.py
  - WriteNotes (Python 2.7)
  - Create a new role from AWS policy templates
  - lambdawritenotes
  - Attach AmazonS3FullAccess (using IAM)
+ - Lambda - Basic Settings - Edit - 15 Seconds
  - Test using the below event
 ```bash
 { "list_of_notes": [ { "topic": "Topic1", "comment": "Test1 Uploaded" },
